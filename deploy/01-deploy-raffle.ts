@@ -7,6 +7,7 @@ import {
 } from "../helper-hardhat-config";
 import { ethers } from "hardhat";
 import verify from "../utils/verify";
+import { Contract } from "ethers";
 
 const FUND_AMOUNT = ethers.utils.parseEther("2");
 
@@ -60,6 +61,17 @@ const deployRaffle: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
         log: true,
         waitConfirmations: waitBlockConfirmations,
     });
+
+    if (developmentChains.includes(network.name)) {
+        const vrfCoordinatorV2Mock = await ethers.getContract(
+            "VRFCoordinatorV2Mock"
+        );
+        const raffleContract = await ethers.getContract("Raffle");
+        vrfCoordinatorV2Mock.addConsumer(
+            subscriptionId,
+            raffleContract.address
+        );
+    }
 
     if (
         !developmentChains.includes(network.name) &&
