@@ -10,6 +10,7 @@ import "hardhat-deploy";
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
 const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL || "https://eth-goerli";
+const MAINNET_RPC_URL = process.env.MAINNET_RPC_URL || "https://eth-mainnet";
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "key";
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || "key";
 
@@ -24,6 +25,10 @@ const config: HardhatUserConfig = {
         goerli: {
             chainId: 5,
             url: GOERLI_RPC_URL,
+            accounts: [PRIVATE_KEY],
+        },
+        mainnet: {
+            url: MAINNET_RPC_URL,
             accounts: [PRIVATE_KEY],
         },
     },
