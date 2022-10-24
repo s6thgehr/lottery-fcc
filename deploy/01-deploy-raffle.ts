@@ -67,9 +67,12 @@ const deployRaffle: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
             "VRFCoordinatorV2Mock"
         );
         const raffleContract = await ethers.getContract("Raffle");
-        vrfCoordinatorV2Mock.addConsumer(
+        await vrfCoordinatorV2Mock.addConsumer(
             subscriptionId,
             raffleContract.address
+        );
+        console.log(
+            `Added raffle contract at ${raffle.address} to consumer at vrf ${vrfCoordinatorV2Mock.address} with subId ${subscriptionId}`
         );
     }
 
