@@ -30,12 +30,15 @@ async function updateContractAddresses() {
     const contractAddresses = JSON.parse(
         fs.readFileSync(frontendContractsFile, "utf8")
     );
-    if (network.name in contractAddresses) {
-        if (!contractAddresses[network.name].includes(raffle.address)) {
-            contractAddresses[network.name].push(raffle.address);
+    const chainId = network.config.chainId;
+    if (chainId == undefined) {
+        return;
+    } else if (chainId in contractAddresses) {
+        if (!contractAddresses[chainId].includes(raffle.address)) {
+            contractAddresses[chainId].push(raffle.address);
         }
     } else {
-        contractAddresses[network.name] = [raffle.address];
+        contractAddresses[chainId] = [raffle.address];
     }
     fs.writeFileSync(frontendContractsFile, JSON.stringify(contractAddresses));
 }
